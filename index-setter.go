@@ -12,6 +12,13 @@ type IndexSetter struct {
 	ids []string
 }
 
+func NewIndexSetter(kv kvas.KeyValues, ids ...string) dolo.IndexSetter {
+	return &IndexSetter{
+		kv:  kv,
+		ids: ids,
+	}
+}
+
 func (is *IndexSetter) Len() int {
 	return len(is.ids)
 }
