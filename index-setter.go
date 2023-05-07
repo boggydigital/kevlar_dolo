@@ -48,3 +48,10 @@ func (is *IndexSetter) Set(index int, src io.ReadCloser, results chan *dolo.Inde
 func (is *IndexSetter) Get(key string) (io.ReadCloser, error) {
 	return is.kv.Get(key)
 }
+
+func (is *IndexSetter) IsModifiedAfter(index int, since int64) bool {
+	if index < 0 || index >= len(is.ids) {
+		return false
+	}
+	return is.kv.IsModifiedAfter(is.ids[index], since)
+}

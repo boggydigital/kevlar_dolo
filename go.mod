@@ -3,7 +3,7 @@ module github.com/boggydigital/kvas_dolo
 go 1.20
 
 require (
-	github.com/boggydigital/dolo v0.2.6
+	github.com/boggydigital/dolo v0.2.7
 	github.com/boggydigital/kvas v0.3.27
 )
 
