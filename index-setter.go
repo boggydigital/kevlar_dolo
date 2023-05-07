@@ -1,6 +1,7 @@
 package kvas_dolo
 
 import (
+	"errors"
 	"fmt"
 	"github.com/boggydigital/dolo"
 	"github.com/boggydigital/kvas"
@@ -45,8 +46,11 @@ func (is *IndexSetter) Set(index int, src io.ReadCloser, results chan *dolo.Inde
 	results <- dolo.NewIndexResult(index, true)
 }
 
-func (is *IndexSetter) Get(key string) (io.ReadCloser, error) {
-	return is.kv.Get(key)
+func (is *IndexSetter) Get(index int) (io.ReadCloser, error) {
+	if index < 0 || index >= len(is.ids) {
+		return nil, errors.New("kvas index out of bounds")
+	}
+	return is.kv.Get(is.ids[index])
 }
 
 func (is *IndexSetter) IsModifiedAfter(index int, since int64) bool {
