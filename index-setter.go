@@ -59,3 +59,10 @@ func (is *IndexSetter) IsModifiedAfter(index int, since int64) bool {
 	}
 	return is.kv.IsModifiedAfter(is.ids[index], since)
 }
+
+func (is *IndexSetter) CurrentModTime(index int) (int64, error) {
+	if index < 0 || index >= len(is.ids) {
+		return -1, nil
+	}
+	return is.kv.CurrentModTime(is.ids[index])
+}
