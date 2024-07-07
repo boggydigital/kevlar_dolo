@@ -1,19 +1,19 @@
-package kvas_dolo
+package kevlar_dolo
 
 import (
 	"errors"
 	"fmt"
 	"github.com/boggydigital/dolo"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"io"
 )
 
 type IndexSetter struct {
-	kv  kvas.KeyValues
+	kv  kevlar.KeyValues
 	ids []string
 }
 
-func NewIndexSetter(kv kvas.KeyValues, ids ...string) dolo.IndexSetter {
+func NewIndexSetter(kv kevlar.KeyValues, ids ...string) dolo.IndexSetter {
 	return &IndexSetter{
 		kv:  kv,
 		ids: ids,
@@ -25,7 +25,7 @@ func (is *IndexSetter) Len() int {
 }
 
 func (is *IndexSetter) Exists(int) bool {
-	//kvas performs hash computation to track modified files,
+	//kevlar performs hash computation to track modified files,
 	//so we want all set attempts to go through (we need to
 	//read src to compute that hash)
 	return false
@@ -48,21 +48,21 @@ func (is *IndexSetter) Set(index int, src io.ReadCloser, results chan *dolo.Inde
 
 func (is *IndexSetter) Get(index int) (io.ReadCloser, error) {
 	if index < 0 || index >= len(is.ids) {
-		return nil, errors.New("kvas index out of bounds")
+		return nil, errors.New("kevlar index out of bounds")
 	}
 	return is.kv.Get(is.ids[index])
 }
 
-func (is *IndexSetter) IsModifiedAfter(index int, since int64) bool {
+func (is *IndexSetter) IsUpdatedAfter(index int, since int64) (bool, error) {
 	if index < 0 || index >= len(is.ids) {
-		return false
+		return false, nil
 	}
-	return is.kv.IsModifiedAfter(is.ids[index], since)
+	return is.kv.IsUpdatedAfter(is.ids[index], since)
 }
 
-func (is *IndexSetter) CurrentModTime(index int) (int64, error) {
+func (is *IndexSetter) ModTime(index int) (int64, error) {
 	if index < 0 || index >= len(is.ids) {
 		return -1, nil
 	}
-	return is.kv.CurrentModTime(is.ids[index])
+	return is.kv.ModTime(is.ids[index])
 }
