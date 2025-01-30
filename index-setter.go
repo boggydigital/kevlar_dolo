@@ -57,12 +57,12 @@ func (is *IndexSetter) IsUpdatedAfter(index int, since int64) (bool, error) {
 	if index < 0 || index >= len(is.ids) {
 		return false, nil
 	}
-	return is.kv.IsUpdatedAfter(is.ids[index], since)
+	return is.kv.IsUpdatedAfter(is.ids[index], since), nil
 }
 
 func (is *IndexSetter) ModTime(index int) (int64, error) {
 	if index < 0 || index >= len(is.ids) {
 		return -1, nil
 	}
-	return is.kv.ModTime(is.ids[index])
+	return is.kv.ValueModTime(is.ids[index]), nil
 }
