@@ -60,9 +60,9 @@ func (is *IndexSetter) IsUpdatedAfter(index int, since int64) (bool, error) {
 	return is.kv.IsUpdatedAfter(is.ids[index], since), nil
 }
 
-func (is *IndexSetter) ModTime(index int) (int64, error) {
+func (is *IndexSetter) FileModTime(index int) (int64, error) {
 	if index < 0 || index >= len(is.ids) {
-		return -1, nil
+		return kevlar.UnknownModTime, nil
 	}
-	return is.kv.ValueModTime(is.ids[index]), nil
+	return is.kv.FileModTime(is.ids[index])
 }

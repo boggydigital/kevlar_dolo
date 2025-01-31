@@ -1,12 +1,10 @@
 module github.com/boggydigital/kevlar_dolo
 
-go 1.23.3
-
-toolchain go1.23.5
+go 1.23.5
 
 require (
-	github.com/boggydigital/dolo v0.2.19
-	github.com/boggydigital/kevlar v0.6.0
+	github.com/boggydigital/dolo v0.2.20
+	github.com/boggydigital/kevlar v0.6.4
 )
 
 require (
