@@ -57,7 +57,13 @@ func (is *IndexSetter) IsUpdatedAfter(index int, since int64) (bool, error) {
 	if index < 0 || index >= len(is.ids) {
 		return false, nil
 	}
-	return is.kv.IsUpdatedAfter(is.ids[index], since), nil
+	updated := is.kv.Since(since, kevlar.Update)
+	for id := range updated {
+		if id == is.ids[index] {
+			return true, nil
+		}
+	}
+	return false, nil
 }
 
 func (is *IndexSetter) FileModTime(index int) (int64, error) {
